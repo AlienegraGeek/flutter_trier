@@ -45,7 +45,7 @@ doc/api/
 # self content
 #android/app/build.gradle
 ios/Runner.xcworkspace/contents.xcworkspacedata
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
 android/app/src/main/res/drawable
 android/app/src/main/res/drawable-v21
-
-*.xcconfig
