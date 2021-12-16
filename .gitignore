@@ -47,3 +47,5 @@ doc/api/
 ios/Runner.xcworkspace/contents.xcworkspacedata
 android/app/src/main/res/drawable
 android/app/src/main/res/drawable-v21
+
+*.xcconfig
