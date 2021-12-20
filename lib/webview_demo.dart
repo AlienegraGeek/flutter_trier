@@ -25,7 +25,8 @@ class _WebViewDemoState extends State<WebViewDemo> {
             child: WebViewPlus(
               onWebViewCreated: (controller) {
                 _controller = controller;
-                controller.loadUrl('assets/index.html');
+                // controller.loadUrl('assets/index.html');
+                controller.loadUrl('assets/kraken_demo.html');
               },
               onPageFinished: (url) {
                 _controller.getHeight().then((double height) {
