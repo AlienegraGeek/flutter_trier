@@ -30,6 +30,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+  kraken: 0.9.0
+  kraken_video_player: 1.1.0
+
+#  kraken_video_player: 2.0.0-dev.0
+#  kraken: 0.9.1-rc.1
+
+#  kraken: 0.10.0-rc.1
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -62,7 +70,7 @@ flutter:
   assets:
     - assets/index.html
     - assets/style.css
-    - assets/script.js
+    - assets/script/
     - assets/css/kraken_demo.css
     - assets/kraken_demo.html
 

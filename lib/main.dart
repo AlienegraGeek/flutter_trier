@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_trier/video_play_test.dart';
 import 'package:flutter_trier/webview_demo.dart';
-
-import 'dartjs.dart';
+import 'package:kraken_video_player/kraken_video_player.dart';
 
 void main() {
-  runApp(const MyApp());
+  KrakenVideoPlayer.initialize();
+  // runApp(const MyApp());
+  runApp(MaterialApp(
+    title: 'Navigation Basics',
+    home: FirstRoute(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
