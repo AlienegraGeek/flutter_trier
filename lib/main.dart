@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trier/video_play_test.dart';
 import 'package:flutter_trier/webview_demo.dart';
-import 'package:kraken_video_player/kraken_video_player.dart';
 
 void main() {
-  KrakenVideoPlayer.initialize();
   // runApp(const MyApp());
   runApp(MaterialApp(
     title: 'Navigation Basics',
-    home: FirstRoute(),
+    // home: FirstRoute(),
+    home: WebViewDemo(),
   ));
 }
 
