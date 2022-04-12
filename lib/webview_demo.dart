@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter_plus/webview_flutter_plus.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 
 class WebViewDemo extends StatefulWidget {
   const WebViewDemo({Key? key}) : super(key: key);
@@ -8,16 +8,46 @@ class WebViewDemo extends StatefulWidget {
   _WebViewDemoState createState() => _WebViewDemoState();
 }
 
-class _WebViewDemoState extends State<WebViewDemo> {
-  late WebViewPlusController _controller;
-  double _height = 1;
+class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
+  bool isKeyboardActived = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance!.removeObserver(this);
+  }
+
+  double oldBottom = 0;
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      // var currentBottom = MediaQuery.of(context).viewInsets.bottom;
+      setState(() {
+        oldBottom = MediaQuery.of(context).viewInsets.bottom;
+      });
+      // if (oldBottom != 0 && currentBottom == 0) {
+      //   FocusScope.of(context).requestFocus(FocusNode());
+      // }
+      // setState(() {
+      //   oldBottom = currentBottom;
+      // });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('ListView Example'),
+        title: const Text('Example'),
       ),
       // body: ListView(
       //   children: [
@@ -42,108 +72,108 @@ class _WebViewDemoState extends State<WebViewDemo> {
       //     )
       //   ],
       // ),
-      body:Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          color: Color(0xFFFAFAFF),
-          padding: EdgeInsets.only(top: 10, bottom: 20),
-          child: AnimatedPadding(
-            padding: EdgeInsets.zero,
-            // padding: MediaQuery.of(context).viewInsets/2,
-            duration: const Duration(milliseconds: 1),
-            curve: Curves.decelerate,
-            child: Container(
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.add_circle,
-                        color: Color(0xFFA9AAB4),
-                      )),
-                  Expanded(
-                    child: Focus(
-                      onFocusChange: (hasFocus) {
-                        if (hasFocus) {
-                          // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.ease);
-                        }
-                      },
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        // focusNode: _keyboardNode,
-                        // controller: _msgController,
-                        onTap: () {
-                          // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                          // if (_scrollController.offset > 400) {
-                          //   print('jump =' + _scrollController.offset.toString());
-                          //   _scrollController.jumpTo(0.0);
-                          // } else {
-                          //   _scrollController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                          //   print('animate =' + _scrollController.offset.toString());
-                          // }
-                          // Future.delayed(Duration(milliseconds: 200), () {
-                          //   _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                          // });
-                        },
-                        autofocus: false,
-                        onEditingComplete: () {
-                          setState(() {
-                            // chatSendMsgList.add(ChatSendMsg(
-                            //   _msgController.text,
-                            //   'https://fileminiapp.oss-cn-shenzhen.aliyuncs.com/filecoin_logo.png',
-                            //   true,
-                            //   true,
-                            //   DateTime.now().toString().substring(0, 19),
-                            // ));
-                            // TODO: 发送消息到后台接口{}
-                          });
-                          // _msgController.clear();
-                        },
-                        decoration: InputDecoration(
-                          fillColor: Color(0xFFF0F0FB),
-                          filled: true,
-                          hintText: "输入聊天内容",
-                          hintStyle: TextStyle(color: Color(0xFF777778)),
-                          contentPadding: EdgeInsets.only(left: 12, right: 12),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFFF0F0FB),
-                              width: 0.0,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF0F0FB),
-                              width: 0.0,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            borderSide: BorderSide(
-                              color: Color(0xFFF0F0FB),
-                              width: 0.0,
-                            ),
-                          ),
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+          await FlutterDisplayMode.setHighRefreshRate();
+          // print('keyboard height = $oldBottom');
+        },
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedContainer(
+            color: const Color(0xFFFAFAFF),
+            // color: Colors.blue,
+            // padding: EdgeInsets.only(top: 10, bottom: 20 + MediaQuery.of(context).viewInsets.bottom),
+            // padding: EdgeInsets.only(top: 10, bottom: 20 + MediaQuery.of(context).viewInsets.bottom),
+            padding: EdgeInsets.only(top: 10, bottom: 20 + oldBottom),
+            duration: const Duration(milliseconds: 10),
+            curve: Curves.easeOutQuad,
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.add_circle,
+                      color: Color(0xFFA9AAB4),
+                    )),
+                Expanded(
+                  child: TextField(
+                    keyboardType: TextInputType.text,
+                    // focusNode: _keyboardNode,
+                    // controller: _msgController,
+                    onTap: () async {
+                      await FlutterDisplayMode.setHighRefreshRate();
+                      print('keyboard height = $oldBottom');
+                      // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                      // if (_scrollController.offset > 400) {
+                      //   print('jump =' + _scrollController.offset.toString());
+                      //   _scrollController.jumpTo(0.0);
+                      // } else {
+                      //   _scrollController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                      //   print('animate =' + _scrollController.offset.toString());
+                      // }
+                      // Future.delayed(Duration(milliseconds: 200), () {
+                      //   _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                      // });
+                    },
+                    autofocus: false,
+                    onEditingComplete: () {
+                      setState(() {
+                        // chatSendMsgList.add(ChatSendMsg(
+                        //   _msgController.text,
+                        //   'https://fileminiapp.oss-cn-shenzhen.aliyuncs.com/filecoin_logo.png',
+                        //   true,
+                        //   true,
+                        //   DateTime.now().toString().substring(0, 19),
+                        // ));
+                        // TODO: 发送消息到后台接口{}
+                      });
+                      // _msgController.clear();
+                    },
+                    decoration: InputDecoration(
+                      fillColor: const Color(0xFFF0F0FB),
+                      filled: true,
+                      hintText: "请输入聊天内容...",
+                      hintStyle: TextStyle(color: const Color(0xFF777778)),
+                      contentPadding: EdgeInsets.only(left: 12, right: 12),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Color(0xFFF0F0FB),
+                          width: 0.0,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide:  BorderSide(
+                          color: Color(0xFFF0F0FB),
+                          width: 0.0,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)),
+                        borderSide: BorderSide(
+                          color: Color(0xFFF0F0FB),
+                          width: 0.0,
                         ),
                       ),
                     ),
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.mood,
-                        color: Color(0xFFA9AAB4),
-                      )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.keyboard_voice,
-                        color: Color(0xFFA9AAB4),
-                      )),
-                ],
-              ),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.mood,
+                      color: Color(0xFFA9AAB4),
+                    )),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.keyboard_voice,
+                      color: Color(0xFFA9AAB4),
+                    )),
+              ],
             ),
           ),
         ),

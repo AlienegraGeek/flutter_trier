@@ -5,6 +5,7 @@ import 'package:flutter_trier/webview_demo.dart';
 void main() {
   // runApp(const MyApp());
   runApp(MaterialApp(
+    showPerformanceOverlay: true,
     title: 'Navigation Basics',
     // home: FirstRoute(),
     home: WebViewDemo(),

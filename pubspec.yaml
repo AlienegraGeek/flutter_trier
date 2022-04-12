@@ -32,6 +32,9 @@ dependencies:
 
 #  kraken: 0.9.0
   kraken_video_player: 1.1.0
+  flutter_keyboard_visibility: ^5.1.0
+  keyboard_attachable: ^2.1.0
+  flutter_displaymode: ^0.4.0
 
 #  kraken_video_player: 2.0.0-dev.0
   kraken: ^0.9.1-rc.1
