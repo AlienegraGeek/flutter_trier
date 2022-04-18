@@ -25,6 +25,8 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
 
   double oldBottom = 0;
 
+  // bool keyCloseStatus = false;
+
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
@@ -33,6 +35,7 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
       setState(() {
         oldBottom = MediaQuery.of(context).viewInsets.bottom;
       });
+      print('keyboard height = $oldBottom');
       // if (oldBottom != 0 && currentBottom == 0) {
       //   FocusScope.of(context).requestFocus(FocusNode());
       // }
@@ -75,9 +78,12 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
       body: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () async {
+          setState(() {
+            // oldBottom = MediaQuery.of(context).viewInsets.bottom;
+            oldBottom = 0;
+          });
           FocusScope.of(context).requestFocus(FocusNode());
-          await FlutterDisplayMode.setHighRefreshRate();
-          // print('keyboard height = $oldBottom');
+          // await FlutterDisplayMode.setHighRefreshRate();
         },
         child: Align(
           alignment: Alignment.bottomCenter,
@@ -87,8 +93,11 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
             // padding: EdgeInsets.only(top: 10, bottom: 20 + MediaQuery.of(context).viewInsets.bottom),
             // padding: EdgeInsets.only(top: 10, bottom: 20 + MediaQuery.of(context).viewInsets.bottom),
             padding: EdgeInsets.only(top: 10, bottom: 20 + oldBottom),
-            duration: const Duration(milliseconds: 10),
-            curve: Curves.easeOutQuad,
+            duration: oldBottom > 0 ? Duration(milliseconds: 300) : Duration(milliseconds: 600),
+            // duration: oldBottom > 0 ? Duration(milliseconds: 500) : Duration(milliseconds: 250),
+            // curve: oldBottom > 0 ? Curves.easeOutQuart : Curves.linearToEaseOut,
+            // curve: oldBottom > 0 ? Curves.easeOutQuart : Curves.linear,
+            curve: oldBottom > 0 ? Curves.easeOutQuart : Cubic(0.15, 1.0, 0.15, 1.0),
             child: Row(
               children: [
                 IconButton(
@@ -100,10 +109,14 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
                 Expanded(
                   child: TextField(
                     keyboardType: TextInputType.text,
+                    keyboardAppearance: Brightness.light,
                     // focusNode: _keyboardNode,
                     // controller: _msgController,
                     onTap: () async {
-                      await FlutterDisplayMode.setHighRefreshRate();
+                      // await FlutterDisplayMode.setHighRefreshRate();
+                      // setState(() {
+                      //   oldBottom = 346;
+                      // });
                       print('keyboard height = $oldBottom');
                       // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                       // if (_scrollController.offset > 400) {
@@ -134,7 +147,8 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
                     decoration: InputDecoration(
                       fillColor: const Color(0xFFF0F0FB),
                       filled: true,
-                      hintText: "请输入聊天内容...",
+                      // hintText: "请输入聊天内容...",
+                      hintText: "",
                       hintStyle: TextStyle(color: const Color(0xFF777778)),
                       contentPadding: EdgeInsets.only(left: 12, right: 12),
                       border: OutlineInputBorder(
@@ -146,7 +160,7 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30)),
-                        borderSide:  BorderSide(
+                        borderSide: BorderSide(
                           color: Color(0xFFF0F0FB),
                           width: 0.0,
                         ),
