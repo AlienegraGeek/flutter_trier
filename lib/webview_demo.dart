@@ -35,7 +35,7 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
       setState(() {
         oldBottom = MediaQuery.of(context).viewInsets.bottom;
       });
-      print('keyboard height = $oldBottom');
+      // print('keyboard height = $oldBottom');
       // if (oldBottom != 0 && currentBottom == 0) {
       //   FocusScope.of(context).requestFocus(FocusNode());
       // }
@@ -117,7 +117,7 @@ class _WebViewDemoState extends State<WebViewDemo> with WidgetsBindingObserver {
                       // setState(() {
                       //   oldBottom = 346;
                       // });
-                      print('keyboard height = $oldBottom');
+                      // print('keyboard height = $oldBottom');
                       // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.ease);
                       // if (_scrollController.offset > 400) {
                       //   print('jump =' + _scrollController.offset.toString());
