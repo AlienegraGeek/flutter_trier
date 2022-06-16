@@ -38,10 +38,10 @@ dependencies:
 #  flutter_unity_widget: ^2020.3.25
   flutter_unity_widget: ^2022.1.0
 
-#  kraken_video_player: 2.0.0-dev.0
-  kraken: ^0.9.1-rc.1
+# kraken_video_player: 2.0.0-dev.0
+# kraken: ^0.9.1-rc.1
 
-#  kraken: 0.10.0-rc.1
+  kraken: 0.10.0-rc.1
 
 
   # The following adds the Cupertino Icons font to your application.
