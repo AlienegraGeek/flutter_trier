@@ -1,5 +1,6 @@
 #!/bin/sh
-
+path1="$HOME/env/flutter_"
+path2="/"
 rm -rf ~/env/flutter
 cd ~/env || exit
 
@@ -9,4 +10,5 @@ else
   echo dir exist
   exit
 fi
-cp -r ~/env/flutter_2.8.1/ ~/env/flutter/
+
+cp -r "${path1}${1}${path2}" ~/env/flutter/
